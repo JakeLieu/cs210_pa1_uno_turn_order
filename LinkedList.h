@@ -83,6 +83,120 @@ public:
         std::cout << std::endl;
     }
 
+    // New for Uno Turn Order Lab
+    void addAnywhere(int position, T* value) override {
+        if (position < 0 || position - 1 > size_) {
+            std::cout << "Invalid position." << std::endl;
+            return;
+        }
+
+        if (position == 0) {
+            addFront(value);
+            return;
+        }
+
+        if (position == size_) {
+            addBack(value);
+            return;
+        }
+
+        Node<T>* currentNode = head_;
+        for (int i = 0; i < position; i++) {
+            currentNode = currentNode->next;
+        }
+
+        Node<T>* newNode = new Node<T>(value);
+        newNode->next = currentNode->next;
+        currentNode->next = newNode;
+
+        size_++;
+    }
+
+    void deleteAnywhere(int position) override {
+        if (position < 0 || position > size_) {
+            std::cout << "Invalid position." << std::endl;
+            return;
+        }
+
+        if (position == 0) {
+            deleteFront();
+            return;
+        }
+
+        Node<T>* currentNode = head_;
+        for (int i = 0; i < position - 1; i++) {
+            currentNode = currentNode->next;
+        }
+
+        Node<T>* deleteNode = currentNode->next;
+        currentNode->next = deleteNode->next;
+
+        if (deleteNode == tail_) {
+            tail_ = currentNode;
+        }
+
+        delete deleteNode->data;
+        delete deleteNode;
+
+        size_--;
+    }
+
+    void reverse() override {
+        if (size_ <= 1) {
+            return;
+        }
+
+        Node<T>* newNextNode = nullptr;
+        Node<T>* currentNode = head_;
+        Node<T>* savedNode = nullptr;
+
+        tail_ = head_;
+
+        for (int i = 0; i < size_; i++) {
+            savedNode = currentNode->next;
+            currentNode->next = newNextNode;
+            newNextNode = currentNode;
+            currentNode = savedNode;
+        }
+
+        head_ = newNextNode;
+    }
+
+    void concat(List<T>* otherGame) override {
+        LinkedList<T>* otherGameCast = dynamic_cast<LinkedList<T>*>(otherGame);
+
+        if (otherGameCast == nullptr) {
+            std::cout << "Invalid list." << std::endl;
+            return;
+        }
+
+        if (otherGameCast->size_ == 0) {
+            return;
+        }
+
+        if (size_ == 0) {
+            head_ = otherGameCast->head_;
+            tail_ = otherGameCast->tail_;
+            size_ = otherGameCast->size_;
+        }
+        else {
+            Node<T>* currentNode = head_;
+
+            for (int i = 0; i < size_ - 1; i++) {
+                currentNode = currentNode->next;
+            }
+
+            currentNode->next = otherGameCast->head_;
+
+            tail_ = otherGameCast->tail_;
+            size_ += otherGameCast->size_;
+        }
+
+        otherGameCast->head_ = nullptr;
+        otherGameCast->tail_ = nullptr;
+        otherGameCast->size_ = 0;
+    }
+
     ~LinkedList() override {
         while (head_ != nullptr) {
             Node<T>* doomed = head_;
