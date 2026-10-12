@@ -85,7 +85,7 @@ public:
 
     // New for Uno Turn Order Lab
     void addAnywhere(int position, T* value) override {
-        if (position < 0 || position - 1 > size_) {
+        if (position < 0 || position > size_) {
             std::cout << "Invalid position." << std::endl;
             return;
         }
@@ -101,7 +101,7 @@ public:
         }
 
         Node<T>* currentNode = head_;
-        for (int i = 0; i < position; i++) {
+        for (int i = 0; i < position - 1; i++) {
             currentNode = currentNode->next;
         }
 
