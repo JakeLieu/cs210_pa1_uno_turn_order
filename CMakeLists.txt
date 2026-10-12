@@ -13,4 +13,5 @@ add_executable(cs210_pa1_boilerplate
         main.cpp
         Node.h
         Player.h
-        Stack.h)
+        Stack.h
+        Card.h)

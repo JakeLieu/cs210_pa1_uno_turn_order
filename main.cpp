@@ -31,9 +31,31 @@ int main() {
     std::unique_ptr<List<Player>> table1 = makeList<Player>();
 
     table1->addFront(new Player(1, "player1"));
+    table1->getFront()->drawCard();
+    table1->getFront()->drawCard();
+    table1->getFront()->drawCard();
+    std::cout << "player1's hand:" << std::endl;
+    table1->getFront()->printHand();
+
     table1->addFront(new Player(2, "player2"));
+    table1->getFront()->drawCard();
+    table1->getFront()->drawCard();
+    table1->getFront()->drawCard();
+    std::cout << "player2's hand:" << std::endl;
+    table1->getFront()->printHand();
+
     table1->addFront(new Player(3, "player3"));
+    table1->getFront()->drawCard();
+    table1->getFront()->drawCard();
+    table1->getFront()->drawCard();
+    std::cout << "player3's hand:" << std::endl;
+    table1->getFront()->printHand();
     table1->print();
+
+    std::cout << "player3 plays a card:" << std::endl;
+    table1->getFront()->playCard();
+    std::cout << "player3's new hand:" << std::endl;
+    table1->getFront()->printHand();
 
     table1->addAnywhere(2, new Player(4, "player4"));
     table1->print();
